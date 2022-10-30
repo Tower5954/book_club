@@ -3,7 +3,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
-from book_club.routes import pages
+from routes import pages
 
 load_dotenv()
 
@@ -18,3 +18,5 @@ def create_app():
 
     app.register_blueprint(pages)
     return app
+
+
