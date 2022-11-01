@@ -18,3 +18,5 @@ def create_app():
 
     app.register_blueprint(pages)
     return app
+
+
