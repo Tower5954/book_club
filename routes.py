@@ -10,5 +10,5 @@ pages = Blueprint(
 def index():
     return render_template(
         "index.html",
-        title="Book Readinglist"
+        title="Book Reading List",
     )
