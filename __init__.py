@@ -3,7 +3,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
-from routes import pages
+from book_club.routes import pages
 
 load_dotenv()
 
