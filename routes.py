@@ -1,5 +1,13 @@
-from flask import Blueprint, render_template, session, request, redirect
+from flask import (
+    Blueprint,
+    render_template,
+    session,
+    request,
+    redirect,
+    current_app,
+    url_for )
 from book_club.forms import BookForm
+import uuid
 
 pages = Blueprint(
     "pages", __name__, template_folder="templates", static_folder="static"
@@ -19,7 +27,16 @@ def add_book():
     form = BookForm()
 
     if form.validate_on_submit():
-        pass
+        book = {
+            "_id": uuid.uuid4().hex,
+            "title": form.title.data,
+            "author": form.author.data,
+            "year": form.year.data
+        }
+
+        current_app.db.book.insert_one(book)
+
+        return redirect(url_for(".index"))
 
     return render_template(
         "new_book.html",
