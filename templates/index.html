@@ -4,7 +4,32 @@
 {% endblock %}
 
 {% block main_content %}
+    {% if books_data %}
+        <table class="table">
+            <colgroup>
+                <col style="width: 60%">
+                <col style="width: 25%">
+                <col style="width: 15%">
+            </colgroup>
 
-    <h1>Books</h1>
+            <thead>
+                <th class="table__cell table__cell--header">Title</th>
+                <th class="table__cell table__cell--header">Release Date</th>
+                <th class="table__cell table__cell--header"></th>
+            </thead>
+            <tbody>
+                {% for book in book_data %}
+                    <tr>
+                        <td class="table__cell">
+                            <p class="table__bookTitle">{{ book.title }}</p>
+                            <p class="table__bookAuthor">{{ book.author }}</p>
+                        </td>
+                        <td class="table__cell">{{ book.year }}</td>
+                        <td class="table__cell"></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 
 {% endblock %}

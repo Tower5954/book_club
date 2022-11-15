@@ -6,7 +6,9 @@ from flask import (
     redirect,
     current_app,
     url_for )
+from dataclasses import asdict
 from book_club.forms import BookForm
+from book_club.models import Book
 import uuid
 
 pages = Blueprint(
@@ -16,9 +18,12 @@ pages = Blueprint(
 
 @pages.route("/")
 def index():
+    book_data = current_app.db.book.find({})
+    books = [Book(**book) for book in book_data]
     return render_template(
         "index.html",
         title="Livrelist",
+        books_data=books
     )
 
 
@@ -27,14 +32,14 @@ def add_book():
     form = BookForm()
 
     if form.validate_on_submit():
-        book = {
-            "_id": uuid.uuid4().hex,
-            "title": form.title.data,
-            "author": form.author.data,
-            "year": form.year.data
-        }
+        book = Book(
+            _id=uuid.uuid4().hex,
+            title=form.title.data,
+            author=form.author.data,
+            year=form.year.data
+        )
 
-        current_app.db.book.insert_one(book)
+        current_app.db.book.insert_one(asdict(book))
 
         return redirect(url_for(".index"))
 
