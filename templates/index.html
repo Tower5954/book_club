@@ -25,11 +25,13 @@
                             <p class="table__bookAuthor">{{ book.author }}</p>
                         </td>
                         <td class="table__cell">{{ book.year }}</td>
-                        <td class="table__cell"></td>
+                        <td class="table__cell"><a href="#" class="table__link">View</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+    {% else %}
+        <p class="table__empty"> You haven't added any movies yet. <a href="{{ url_for('pages.add_book') }}" class="link">Add one!</a></p>
     {% endif %}
 
 {% endblock %}
