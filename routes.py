@@ -50,6 +50,13 @@ def add_book():
     )
 
 
+@pages.get("/book/<string:_id>")
+def book(_id: str):
+    book_data = current_app.db.book.find_one({"_id": _id})
+    book = Book(**book_data)
+    return render_template("book_details.html", book=book)
+
+
 @pages.get("/toggle-theme")
 def toggle_theme():
     current_theme = session.get("theme")

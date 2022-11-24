@@ -26,7 +26,7 @@
                             <p class="table__bookAuthor">{{ book.author }}</p>
                         </td>
                         <td class="table__cell">{{ book.year }}</td>
-                        <td class="table__cell"><a href="#" class="table__link">View</a></td>
+                        <td class="table__cell"><a href="{{ url_for('pages.book', _id=book._id) }}" class="table__link">View</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

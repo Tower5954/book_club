@@ -1,0 +1,41 @@
+{% from "macros/svgs.html" import star, pencil %}
+
+{% extends "layout.html" %}
+
+{% block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book_details.css') }}" />
+{% endblock %}
+
+{% block main_content %}
+<div class="container">
+    <header class="header__row">
+        <div class="header_row">
+            <div class="book__name">
+                <h1>{{ book.title }}</h1>
+                <div class="book__rating">
+                    {{ book.rating }}
+                </div>
+            </div>
+            <div class="book__read">
+            {% if book.last_read %}
+                <p>
+                    Last Read: <a href="#" class="read__link">
+                    <time datetime="{{ book.last_read }}">{{ book.last_read.strftime("%d %b %Y") }}</time>
+                    </a>
+                </p>
+            {% else %}
+                <p><a href="#" class="read__link">Not read yet</a></p>
+            {% endif %}
+                <a class="book__edit" href="#">Edit {{ pencil("pencil") }}</a>
+            </div>
+        </div>
+        <div class="header__row">
+            <ul class="header__row">
+                {% for tag in book.tags %}
+                    <li class="book__tag">{{ tag }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </header>
+</div>
+{% endblock %}
