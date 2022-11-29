@@ -8,12 +8,16 @@
 
 {% block main_content %}
 <div class="container">
-    <header class="header__row">
+    <header class="book__header">
         <div class="header_row">
             <div class="book__name">
                 <h1>{{ book.title }}</h1>
                 <div class="book__rating">
-                    {{ book.rating }}
+                    {% for i in range(5) %}
+                        <a class="rating__link" href="#">
+                            {{ star("star") }}
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
             <div class="book__read">
@@ -37,5 +41,45 @@
             </ul>
         </div>
     </header>
+
+    {% if book.video_link %}
+        <iframe
+            class="book__video"
+            src="{{ book.video_link }}"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    {% endif %}
+
+    {% if book.description %}
+        <p class="book__description">{{ book.description }}</p>
+    {% else %}
+        <p class="book__description">No description yet. <a class="link" href="#">Add one?</a></p>
+    {% endif %}
+
+     <div class="book__meta">
+         {% if book.cast %}
+            <div class="book__casting">
+                <h2>Casting</h2>
+                <ul class="list">
+                    {% for character in book.cast %}
+                        <li class="list__item">{{ character }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+         {% endif %}
+         {% if book.series | length %}
+            <div class="book__series">
+                <h2>Series</h2>
+                <ul class="list">
+                {% for book_in_series in book.series %}
+                    <li class="list__item">{{ book_in_series }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+         {% endif %}
+     </div>
 </div>
 {% endblock %}
