@@ -14,8 +14,8 @@
                 <h1>{{ book.title }}</h1>
                 <div class="book__rating">
                     {% for i in range(5) %}
-                        <a class="rating__link" href="#">
-                            {{ star("star") }}
+                        <a class="rating__link" href="{{ url_for('pages.rate_book', _id=book._id, rating=i+1) }}">
+                            {{ star("star " + ("star--filled" if book.rating > i else "")) }}
                         </a>
                     {% endfor %}
                 </div>

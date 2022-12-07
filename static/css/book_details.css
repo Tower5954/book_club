@@ -34,6 +34,10 @@
     fill: none;
 }
 
+.star--filled {
+    fill: #ffd02a;
+}
+
 .rating_link {
     display: flex;
     align-items: center;

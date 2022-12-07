@@ -57,6 +57,13 @@ def book(_id: str):
     return render_template("book_details.html", book=book)
 
 
+@pages.get("/book/<string:_id>/rate")
+def rate_book(_id):
+    rating = int(request.args.get("rating"))
+    current_app.db.book.update_one({"_id": _id}, {"$set": {"rating": rating}})
+
+    return redirect(url_for(".book", _id=_id))
+
 @pages.get("/toggle-theme")
 def toggle_theme():
     current_theme = session.get("theme")
