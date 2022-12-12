@@ -10,6 +10,7 @@ class Book:
     year: int
     characters: list[str] = field(default_factory=list)
     series: list[str] = field(default_factory=list)
+    last_read: datetime = None
     rating: int = 0
     tags: list[str] = field(default_factory=list)
     description: str = None

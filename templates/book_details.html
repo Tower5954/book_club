@@ -21,16 +21,16 @@
                 </div>
             </div>
             <div class="book__read">
-            {% if book.last_read %}
-                <p>
-                    Last Read: <a href="#" class="read__link">
-                    <time datetime="{{ book.last_read }}">{{ book.last_read.strftime("%d %b %Y") }}</time>
-                    </a>
-                </p>
-            {% else %}
-                <p><a href="#" class="read__link">Not read yet</a></p>
-            {% endif %}
-                <a class="book__edit" href="#">Edit {{ pencil("pencil") }}</a>
+                {% if book.last_read %}
+                    <p>
+                        Last Read: <a href="{{ url_for('pages.read_today', _id=book._id) }}" class="read__link">
+                        <time datetime="{{ book.last_read }}">{{book.last_read.strftime("%d %b %Y")}}</time>
+                        </a>
+                    </p>
+                {% else %}
+                    <p><a href="{{ url_for('pages.read_today', _id=book._id) }}" class="read__link">Not read yet</a></p>
+                {% endif %}
+                <a class="book__edit" href="{{ url_for('pages.edit_book', _id=book._id) }}">Edit {{ pencil("pencil") }}</a>
             </div>
         </div>
         <div class="header__row">
@@ -42,10 +42,10 @@
         </div>
     </header>
 
-    {% if book.video_link %}
+    {% if book.image_link %}
         <iframe
             class="book__video"
-            src="{{ book.video_link }}"
+            src="{{ book.image_link }}"
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -56,7 +56,8 @@
     {% if book.description %}
         <p class="book__description">{{ book.description }}</p>
     {% else %}
-        <p class="book__description">No description yet. <a class="link" href="#">Add one?</a></p>
+        <p class="movie__description">No description yet. <a class="link" href="{{ url_for('pages.edit_book', _id=book._id) }}">Add one?</a></p>
+
     {% endif %}
 
      <div class="book__meta">

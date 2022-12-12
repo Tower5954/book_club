@@ -1,3 +1,6 @@
+import uuid
+import datetime
+
 from flask import (
     Blueprint,
     render_template,
@@ -7,9 +10,9 @@ from flask import (
     current_app,
     url_for )
 from dataclasses import asdict
-from book_club.forms import BookForm
+from book_club.forms import BookForm, ExtendedBookForm
 from book_club.models import Book
-import uuid
+
 
 pages = Blueprint(
     "pages", __name__, template_folder="templates", static_folder="static"
@@ -49,11 +52,25 @@ def add_book():
         form=form
     )
 
+@pages.route("/edit/<string:_id>", methods=["GET", "POST"])
+def edit_book(_id: str):
+    book = Book(**current_app.db.book.find_one({"_id": _id}))
+    form = ExtendedBookForm(obj=book)
+    if form.validate_on_submit():
+        book.characters = form.characters.data
+        book.series = form.series.data
+        book.tags = form.tags.data
+        book.description = form.description.data
+        book.image_link = form.image_link.data
+
+        current_app.db.book.update_one({"_id": book._id}, {"$set": asdict(book)})
+        return redirect(url_for(".book", _id=book._id))
+    return render_template("book_form.html", book=book, form=form)
+
 
 @pages.get("/book/<string:_id>")
 def book(_id: str):
-    book_data = current_app.db.book.find_one({"_id": _id})
-    book = Book(**book_data)
+    book = Book(**current_app.db.book.find_one({"_id": _id}))
     return render_template("book_details.html", book=book)
 
 
@@ -63,6 +80,17 @@ def rate_book(_id):
     current_app.db.book.update_one({"_id": _id}, {"$set": {"rating": rating}})
 
     return redirect(url_for(".book", _id=_id))
+
+
+@pages.get("/book/<string:_id>/read")
+def read_today(_id):
+    current_app.db.book.update_one(
+        {"_id": _id},
+        {"$set": {"last_read": datetime.datetime.today()}}
+    )
+
+    return redirect(url_for(".book", _id=_id))
+
 
 @pages.get("/toggle-theme")
 def toggle_theme():
