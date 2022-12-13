@@ -15,3 +15,11 @@ class Book:
     tags: list[str] = field(default_factory=list)
     description: str = None
     image_link:  str = None
+
+
+@dataclass
+class Bookworm:
+    _id: str
+    email: str
+    password: str
+    books: list[str] = field(default_factory=list)
