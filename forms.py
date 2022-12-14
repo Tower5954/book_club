@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import  IntegerField, StringField, SubmitField, TextAreaField, URLField
-from wtforms.validators import InputRequired, NumberRange
+from wtforms import  IntegerField, StringField, SubmitField, TextAreaField, URLField, PasswordField
+from wtforms.validators import InputRequired, NumberRange, Email, Length, EqualTo
 
 
 class BookForm(FlaskForm):
@@ -39,3 +39,33 @@ class ExtendedBookForm(BookForm):
     image_link = URLField("Video link")
 
     submit = SubmitField("Submit")
+
+class RegisterForm(FlaskForm):
+    email = StringField("Email", validators=[InputRequired(), Email()])
+    password = PasswordField(
+        "Password",
+    validators=[
+        InputRequired(),
+        Length(
+            min=8,
+            max=40,
+            message="Your password must be between 8 and 40 characters long."
+        )
+    ])
+    confirm_password = PasswordField(
+        "Confirm Password",
+        validators=[
+            InputRequired(),
+            EqualTo(
+                "password",
+                message="We are sorry. However, this password did not match the one in the password field."
+            )
+        ]
+    )
+    submit = SubmitField("Register")
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[InputRequired(), Email()])
+    password = PasswordField("Password", validators=[InputRequired()])
+    submit = SubmitField("Login")

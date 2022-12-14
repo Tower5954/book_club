@@ -23,3 +23,11 @@ class Bookworm:
     email: str
     password: str
     books: list[str] = field(default_factory=list)
+
+
+@dataclass
+class Bookworm:
+    _id: str
+    email: str
+    password: str
+    books: list[str] = field(default_factory=list)
